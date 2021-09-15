@@ -1,2 +1,2 @@
 # slots
-Slot machine implementation using Ethereum Smart Contracts and ChainLink
+Slot machine implementation utilising Ethereum Smart Contracts and ChainLink for randomness
