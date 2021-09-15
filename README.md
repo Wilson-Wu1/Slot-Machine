@@ -1,5 +1,5 @@
 # Slots
-Slot machine implementation utilising Ethereum Smart Contracts and ChainLink VRF for randomly generated outcomes.
+A slot machine implementation utilising Ethereum Smart Contracts and ChainLink VRF for randomly generated outcomes.
 Uploaded to the Rinkeby Testnet. 
 
 ## Smart Contract URL: ##
