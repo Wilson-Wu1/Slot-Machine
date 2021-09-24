@@ -1,0 +1,59 @@
+<html>
+    <body>
+        <h1>This is my slots frontend!</h1>
+        <p> Functions: </p>
+        <label for="mood">Input wei:</label> <br>
+
+        <div>
+            <button onclick="displayWeiInContract()"> display wei in contract</button>
+            <br>
+            <br>
+        </div>
+
+        <input type = "number" name = "a" id = "a">
+        <button onclick = "getGameInfo(document.getElementById('a').value)">getGameInfo</button>
+        <br>
+        <br>
+        <input type = "number" name = "bet" id = "bet">
+        <button onclick = "playSlots(document.getElementById('bet').value)">Bet</button>
+        
+    </body>
+    <script charset="utf-8"
+        src="https://cdn.ethers.io/scripts/ethers-v4.min.js"
+        type="text/javascript">
+    </script>
+
+    <script>
+        window.ethereum.enable()
+        provider = new ethers.providers.Web3Provider(web3.currentProvider, 'rinkeby');
+
+        var contractAddress = "0xF3cbe8415fD69A116B4C6753a86DF7a479BeF5Fe";
+        var contractABI = [{"inputs":[],"stateMutability":"nonpayable","type":"constructor"},{"stateMutability":"payable","type":"fallback"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"addressToAmountSpent","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"displayWeiInContract","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"fee","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"fund","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"getGameInfo","outputs":[{"internalType":"uint256","name":"gameNumber","type":"uint256"},{"internalType":"address payable","name":"gameUserAddress","type":"address"},{"internalType":"uint256","name":"gameUserBet","type":"uint256"},{"internalType":"string","name":"gameStringResult","type":"string"},{"internalType":"uint256","name":"gameResult","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"playSlot","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[],"name":"randomResult","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"bytes32","name":"requestId","type":"bytes32"},{"internalType":"uint256","name":"randomness","type":"uint256"}],"name":"rawFulfillRandomness","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"result","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"stateMutability":"payable","type":"receive"}]
+       
+        provider.listAccounts().then(function(accounts) {
+            signer = provider.getSigner(accounts[0]);
+            contract = new ethers.Contract(contractAddress, contractABI, signer);
+        })
+
+        async function displayWeiInContract(){
+            getWeiPromise = contract.displayWeiInContract();
+            var wei = await getWeiPromise;
+            console.log(wei);
+            alert("The current amount of wei is: " + wei);
+        }
+
+        async function getGameInfo(a){
+            
+            gameInfo = contract.getGameInfo(a);
+            var info = await gameInfo;
+            console.log(info);
+            alert("The game Info" + info);
+        }
+
+        async function playSlots(bet)
+    </script>  
+
+
+ </html>
+
+ 
