@@ -47,12 +47,14 @@ contract slots is VRFConsumerBase {
         
         
     }
-    mapping(uint256 => gameInfo) public getGameInfo;
+    mapping(uint256 => gameInfo) public gameInfoMapping;
     
-    mapping(address => uint256) public addressToAmountSpent;
+    mapping(address => uint256) public addressToAmountSpentMapping;
     
     
-    function playSlot() public payable{
+    function playSlot(uint256 amount ) public payable{
+        //Make sure the amount called by this function is the same as value of message
+        require(msg.value == amount);
         gameNumber ++ ;
         //Amount stored in contract
         uint256 etherInContract = address(this).balance;
@@ -92,7 +94,7 @@ contract slots is VRFConsumerBase {
     function verdict(uint256 finalResult) internal{
         
         //Increment Amount sent from user addresss
-        addressToAmountSpent[userAddress] += userBet;
+        addressToAmountSpentMapping[userAddress] += userBet;
         
         
         if(finalResult == 1){
@@ -107,7 +109,7 @@ contract slots is VRFConsumerBase {
         //Store info of this game into our gameInfo struct
         gameInfo memory info;
         info = gameInfo(gameNumber, userAddress, userBet, result, finalResult );
-        getGameInfo[gameNumber] = info;
+        gameInfoMapping[gameNumber] = info;
     }
 
 
@@ -126,6 +128,12 @@ contract slots is VRFConsumerBase {
         }
         
         //addressToAmountSpent[msg.sender] += msg.value;
+    }
+
+    function getGameInfo(uint256 gameNum) public view returns (uint256, address , uint256, string memory, uint ){
+        gameInfo memory info;
+        info = gameInfoMapping[gameNum];
+        return (info.gameNumber, info.gameUserAddress, info.gameUserBet, info.gameStringResult, info.gameResult );
     }
     
     fallback()external payable{ 
